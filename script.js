@@ -50,6 +50,8 @@ const container = document.querySelector(".container");
 const con = document.querySelector(".con");
 const para = document.querySelector(".para");
 const cardImage = document.querySelector(".cardImg");
+const svg = document.querySelector(".svg");
+const search = document.querySelector(".se");
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
@@ -443,8 +445,9 @@ goal.addEventListener("click", filterGoal);
 
 document.addEventListener("click", (e) => {
   console.log(e.target.id);
+  main.innerHTML = " ";
   if (e.target.id !== "none") {
-    container.classList.toggle("display");
+    container.style.transform = "translateX(0px)";
     const dbref = ref(db);
     get(child(dbref, "mypie/")).then((snapshot) => {
       if (snapshot.exists()) {
@@ -458,5 +461,62 @@ document.addEventListener("click", (e) => {
     });
     // findName.innerHTML = "Name: " + snapshot.val().name;
     // findAge.innerHTML = "Age: " + snapshot.val().age;
+  }
+});
+
+svg.addEventListener("click", () => {
+  console.log("lol");
+  location.reload();
+});
+function myRegex(text, src) {
+  const regex = new RegExp(text, "gi");
+  let result = regex.test(src);
+  return result;
+}
+
+function searchFunc() {
+  console.log(search.value);
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          console.log(img);
+          let answer = myRegex(title, search.value);
+          if (answer) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+          <div id="${title}" class="image active">
+            <img id="${title}" class="active" src="${img}" alt="" />
+          </div>
+          <div id="${title}" class="title active">${title}</div>
+        </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      } else {
+        alert("No data found");
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+
+search.addEventListener("keyup", (e) => {
+  if (e.keyCode === 13) {
+    searchFunc();
   }
 });
