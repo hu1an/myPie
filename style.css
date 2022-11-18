@@ -15,8 +15,6 @@
 }
 .display {
   transform: translateX(0px);
-  position: absolute;
-  top: 5vh;
 }
 .box2 {
   display: flex;
@@ -46,6 +44,7 @@
   margin: 20px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 .headerr {
   position: fixed;
@@ -170,18 +169,21 @@
   .mainn {
     grid-template-columns: repeat(3, 1fr);
     margin: auto;
+    margin-top: 100px;
   }
 }
 @media (max-width: 600px) {
   .mainn {
     grid-template-columns: repeat(2, 1fr);
     margin: auto;
+    margin-top: 100px;
   }
 }
 @media (max-width: 300px) {
   .mainn {
     grid-template-columns: repeat(1, 1fr);
     margin: auto;
+    margin-top: 100px;
   }
 }
 .box {
@@ -209,4 +211,14 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.svg {
+  position: absolute;
+  top: -130px;
+  right: 10px;
+  transform: scale(1.2);
+}
+.svg:hover {
+  background-color: red;
+  border-radius: 50px;
 }
