@@ -1,114 +1,522 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-  </head>
-  <body>
-    <div id="none" class="mobile">
-      <h1 id="none">HULAN</h1>
-      <button id="none" class="mMenu">Menu</button>
-    </div>
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-    <div id="none" class="headerr off">
-      <div id="none" class="logo">HULANNNNNNNNNNN</div>
-      <div id="none" class="search">
-        <input id="none" type="text" class="se" placeholder="search" />
-      </div>
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDgycB5VJ7coJb1h0BzXBJdU-aRb1JAAj0",
+  authDomain: "mypie-6fbc8.firebaseapp.com",
+  projectId: "mypie-6fbc8",
+  storageBucket: "mypie-6fbc8.appspot.com",
+  messagingSenderId: "203610763028",
+  appId: "1:203610763028:web:7a08f1e1e68ebbbd02dc01",
+  databaseURL:
+    "https://mypie-6fbc8-default-rtdb.asia-southeast1.firebasedatabase.app",
+};
 
-      <div class="wrap movies music" id="none">
-        <h6 id="none">Movies</h6>
-        <p id="none">🍿</p>
-      </div>
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  get,
+  update,
+  remove,
+  child,
+} from "https://www.gstatic.com/firebasejs/9.13.0/firebase-database.js";
 
-      <div class="wrap music musicc" id="none">
-        <h6 id="none">Music</h6>
-        <p id="none">🎵</p>
-      </div>
-      <div class="wrap books music" id="none">
-        <h6 id="none">Books</h6>
-        <p id="none">📚</p>
-      </div>
-      <div class="wrap hobbies music" id="none">
-        <h6 id="none">Hobbies</h6>
+const db = getDatabase(app);
 
-        <img
-          id="none"
-          src="https://cdn1.iconfinder.com/data/icons/resume-or-cv-line/32/hobby-512.png"
-          alt=""
-        />
-      </div>
-      <div class="wrap habits music" id="none">
-        <h6 id="none">Habits</h6>
+const menu = document.querySelector(".mMenu");
+const head = document.querySelector(".headerr");
+const main = document.querySelector(".mainn");
+const one = document.querySelector(".one");
+const two = document.querySelector(".two");
+const three = document.querySelector(".three");
+const four = document.querySelector(".four");
+const five = document.querySelector(".five");
+const movies = document.querySelector(".movies");
+const music = document.querySelector(".musicc");
+const hobbies = document.querySelector(".hobbies");
+const books = document.querySelector(".books");
+const habits = document.querySelector(".habits");
+const daily = document.querySelector(".daily");
+const success = document.querySelector(".success");
+const goal = document.querySelector(".goal");
+const container = document.querySelector(".container");
+const con = document.querySelector(".con");
+const para = document.querySelector(".para");
+const cardImage = document.querySelector(".cardImg");
+const svg = document.querySelector(".svg");
+const search = document.querySelector(".se");
 
-        <img
-          id="none"
-          src="https://cdn-icons-png.flaticon.com/512/4994/4994197.png"
-          alt=""
-        />
-      </div>
-      <div class="wrap daily music" id="none">
-        <h6 id="none">Daily</h6>
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
-        <img
-          id="none"
-          src="https://icons.veryicon.com/png/o/miscellaneous/effevo/daily-report.png"
-          alt=""
-        />
-      </div>
-      <div class="wrap success music" id="none">
-        <h6 id="none">Success</h6>
-        <p id="none">✅</p>
-      </div>
-      <div class="wrap goal music" id="none">
-        <h6 id="none">Goal</h6>
-        <img
-          id="none"
-          src="https://cdn-icons-png.flaticon.com/512/977/977451.png"
-          alt=""
-        />
-      </div>
-    </div>
+let columns = [one, two, three, four, five];
 
-    <div id="none" class="mainn">
-      <div id="none" class="columnn one"></div>
-      <div id="none" class="columnn two"></div>
-      <div id="none" class="columnn three"></div>
-      <div id="none" class="columnn four"></div>
-      <div id="none" class="columnn five"></div>
-    </div>
-    <div id="none" class="container">
-      <div id="none" class="box2">
-        <div id="none" class="zrg">
-          <img
-            class="cardImg"
-            id="none"
-            src="https://scontent.fuln1-2.fna.fbcdn.net/v/t39.30808-6/314720868_2586253634845433_1920371406118386490_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=730e14&_nc_ohc=Ku4OZKHgvSUAX8yOixW&_nc_ht=scontent.fuln1-2.fna&oh=00_AfDh89wjOI14B6YgOvHUHRSeFVSaIxoa-sgACKn8zMFKWA&oe=636E5691"
-            alt=""
-          />
+// for (let i = 0; i < columns.length; i++) {
+//   for (let j = 0; j < 7; j++) {
+//     columns[i].insertAdjacentHTML(
+//       "afterbegin",
+//       `
+//       <div style="height: ${getRandomArbitrary(200, 400)}px" class="box small">
+//           <div class="image">
+//             <img src="https://picsum.photos/300/300" alt="" />
+//           </div>
+//           <div class="title">The title</div>
+//         </div>
+
+//       `
+//     );
+//   }
+// }
+
+function bar() {
+  head.classList.toggle("off");
+}
+menu.addEventListener("click", bar);
+
+function FindData() {
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          console.log(img);
+          main.insertAdjacentHTML(
+            "afterbegin",
+            `<div style="height: ${getRandomArbitrary(
+              200,
+              400
+            )}px" id="${title}" class="box small active">
+        <div id="${title}" class="image active">
+          <img id="${title}" class="active" src="${img}" alt="" />
         </div>
-        <div class="con">
-          <p class="para">
-            Мягмар гарагийн 🍕HUT DAY🍕 урамшуулалдаа бэлэн үү? 😇❤️ 11/08-ны
-            мягмар гарагийн #HUT_TUESDAY-р 👉Том болон дунд хэмжээтэй
-            пиццануудыг хямдралтай үнээр худалдан аваарай.😉 Пиццаны сонголтууд:
-            👇👇 🍕Маханд дурлагсад, Пепперони, Хавайн, Супер суприм, Ногоонд
-            дурлагсад, Бяслагт, BBQ тахиатай пицца, Хүчирхэг пицца, Пепперони &
-            Бяслагт тал тал пицца 😇 Мягмар гарагт захиалах ☎️75-55-55-55
-          </p>
-        </div>
-      </div>
-    </div>
-    <script type="module" src="script.js"></script>
-  </body>
-</html>
+        <div id="${title}" class="title active">${title}</div>
+      </div>`
+          );
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      } else {
+        alert("No data found");
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+FindData();
+
+function filterMovies() {
+  console.log("clicked");
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          let category = `snapshot.val().${keys[i]}.movies`;
+          category = eval(category);
+          console.log(category);
+          if (category) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+            <div id="${title}" class="image active">
+              <img id="${title}" class="active" src="${img}" alt="" />
+            </div>
+            <div id="${title}" class="title active">${title}</div>
+          </div>`
+            );
+          }
+        }
+      }
+      // findName.innerHTML = "Name: " + snapshot.val().name;
+      // findAge.innerHTML = "Age: " + snapshot.val().age;
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+
+function filterMusic() {
+  console.log("clicked");
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          let category = `snapshot.val().${keys[i]}.music`;
+          category = eval(category);
+          console.log(category);
+          if (category) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+            <div id="${title}" class="image active">
+              <img id="${title}" class="active" src="${img}" alt="" />
+            </div>
+            <div id="${title}" class="title active">${title}</div>
+          </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+function filterHabits() {
+  console.log("clicked");
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          let category = `snapshot.val().${keys[i]}.habits`;
+          category = eval(category);
+          console.log(category);
+          if (category) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+            <div id="${title}" class="image active">
+              <img id="${title}" class="active" src="${img}" alt="" />
+            </div>
+            <div id="${title}" class="title active">${title}</div>
+          </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+function filterHobbies() {
+  console.log("clicked");
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          let category = `snapshot.val().${keys[i]}.hobbies`;
+          category = eval(category);
+          console.log(category);
+          if (category) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+            <div id="${title}" class="image active">
+              <img id="${title}" class="active" src="${img}" alt="" />
+            </div>
+            <div id="${title}" class="title active">${title}</div>
+          </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+function filterBooks() {
+  console.log("clicked");
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          let category = `snapshot.val().${keys[i]}.books`;
+          category = eval(category);
+          console.log(category);
+          if (category) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+            <div id="${title}" class="image active">
+              <img id="${title}" class="active" src="${img}" alt="" />
+            </div>
+            <div id="${title}" class="title active">${title}</div>
+          </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+function filterDaily() {
+  console.log("clicked");
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          let category = `snapshot.val().${keys[i]}.daily`;
+          category = eval(category);
+          console.log(category);
+          if (category) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+            <div id="${title}" class="image active">
+              <img id="${title}" class="active" src="${img}" alt="" />
+            </div>
+            <div id="${title}" class="title active">${title}</div>
+          </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+function filterGoal() {
+  console.log("clicked");
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          let category = `snapshot.val().${keys[i]}.goal`;
+          category = eval(category);
+          console.log(category);
+          if (category) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+            <div id="${title}" class="image active">
+              <img id="${title}" class="active" src="${img}" alt="" />
+            </div>
+            <div id="${title}" class="title active">${title}</div>
+          </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+function filterSuccess() {
+  console.log("clicked");
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          let category = `snapshot.val().${keys[i]}.success`;
+          category = eval(category);
+          console.log(category);
+          if (category) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+            <div id="${title}" class="image active">
+              <img id="${title}" class="active" src="${img}" alt="" />
+            </div>
+            <div id="${title}" class="title active">${title}</div>
+          </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      } else {
+        alert("No data found");
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+
+movies.addEventListener("click", filterMovies);
+music.addEventListener("click", filterMusic);
+habits.addEventListener("click", filterHabits);
+hobbies.addEventListener("click", filterHobbies);
+books.addEventListener("click", filterBooks);
+daily.addEventListener("click", filterDaily);
+success.addEventListener("click", filterSuccess);
+goal.addEventListener("click", filterGoal);
+
+document.addEventListener("click", (e) => {
+  console.log(e.target.id);
+  main.innerHTML = " ";
+  if (e.target.id !== "none") {
+    container.style.transform = "translateX(0px)";
+    const dbref = ref(db);
+    get(child(dbref, "mypie/")).then((snapshot) => {
+      if (snapshot.exists()) {
+        let img = `snapshot.val().${e.target.id}.img`;
+        let text = `snapshot.val().${e.target.id}.text`;
+        img = eval(img);
+        text = eval(text);
+        cardImage.src = img;
+        para.innerHTML = text;
+      }
+    });
+    // findName.innerHTML = "Name: " + snapshot.val().name;
+    // findAge.innerHTML = "Age: " + snapshot.val().age;
+  }
+});
+
+svg.addEventListener("click", () => {
+  console.log("lol");
+  location.reload();
+});
+function myRegex(text, src) {
+  const regex = new RegExp(text, "gi");
+  let result = regex.test(src);
+  return result;
+}
+
+function searchFunc() {
+  console.log(search.value);
+  main.innerHTML = " ";
+  const dbref = ref(db);
+  get(child(dbref, "mypie/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        let keys = Object.keys(snapshot.val());
+        for (let i = 0; i < keys.length; i++) {
+          let img = `snapshot.val().${keys[i]}.img`;
+          img = eval(img);
+          let title = `snapshot.val().${keys[i]}.title`;
+          title = eval(title);
+          console.log(img);
+          let answer = myRegex(title, search.value);
+          if (answer) {
+            main.insertAdjacentHTML(
+              "afterbegin",
+              `<div style="height: ${getRandomArbitrary(
+                200,
+                400
+              )}px" id="${title}" class="box small active">
+          <div id="${title}" class="image active">
+            <img id="${title}" class="active" src="${img}" alt="" />
+          </div>
+          <div id="${title}" class="title active">${title}</div>
+        </div>`
+            );
+          }
+        }
+        // findName.innerHTML = "Name: " + snapshot.val().name;
+        // findAge.innerHTML = "Age: " + snapshot.val().age;
+      } else {
+        alert("No data found");
+      }
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
+
+search.addEventListener("keyup", (e) => {
+  if (e.keyCode === 13) {
+    searchFunc();
+  }
+});
