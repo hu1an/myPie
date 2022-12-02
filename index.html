@@ -145,6 +145,8 @@
         </header>
         <div v-if="!isActive" class="text bigText">Welcome to MyPie!</div>
         <button v-if="!isActive" class="btn" @click="menu">{{click}}</button>
+        <div v-if="none" class="text bigText">Select a Category!</div>
+        <!--none-->
 
         <!--all-->
         <div class="wrap" v-if="showAll" v-for="card in firebaseData">
@@ -235,6 +237,6 @@
       </div>
     </div>
 
-    <script type="module" src="script.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>
