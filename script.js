@@ -59,6 +59,7 @@ const app = Vue.createApp({
       showGoal: false,
       showDaily: false,
       showLocked: false,
+      none: false,
     };
   },
   methods: {
@@ -146,6 +147,7 @@ const app = Vue.createApp({
       this.showHobbies = false;
       this.showDaily = false;
       this.showLocked = false;
+      this.checkNone();
     },
     Music() {
       this.showAll = false;
@@ -158,6 +160,7 @@ const app = Vue.createApp({
       this.showHobbies = false;
       this.showDaily = false;
       this.showLocked = false;
+      this.checkNone();
     },
     Books() {
       this.showAll = false;
@@ -170,6 +173,7 @@ const app = Vue.createApp({
       this.showHobbies = false;
       this.showDaily = false;
       this.showLocked = false;
+      this.checkNone();
     },
     Success() {
       this.showAll = false;
@@ -182,6 +186,7 @@ const app = Vue.createApp({
       this.showHobbies = false;
       this.showDaily = false;
       this.showLocked = false;
+      this.checkNone();
     },
     Hobbies() {
       this.showAll = false;
@@ -194,6 +199,7 @@ const app = Vue.createApp({
       this.showMusic = false;
       this.showDaily = false;
       this.showLocked = false;
+      this.checkNone();
     },
     Habits() {
       this.showAll = false;
@@ -206,6 +212,7 @@ const app = Vue.createApp({
       this.showHobbies = false;
       this.showDaily = false;
       this.showLocked = false;
+      this.checkNone();
     },
     Goal() {
       this.showAll = false;
@@ -218,6 +225,7 @@ const app = Vue.createApp({
       this.showHobbies = false;
       this.showDaily = false;
       this.showLocked = false;
+      this.checkNone();
     },
     Daily() {
       this.showAll = false;
@@ -230,7 +238,9 @@ const app = Vue.createApp({
       this.showHobbies = false;
       this.showMusic = false;
       this.showLocked = false;
+      this.checkNone();
     },
+
     Locked() {
       this.showAll = false;
       this.showLocked = !this.showLocked;
@@ -242,6 +252,7 @@ const app = Vue.createApp({
       this.showGoal = false;
       this.showHobbies = false;
       this.showMusic = false;
+      this.checkNone();
     },
     all() {
       this.showAll = !this.showAll;
@@ -254,6 +265,23 @@ const app = Vue.createApp({
       this.showHobbies = false;
       this.showMusic = false;
       this.showLocked = false;
+      this.checkNone();
+    },
+    checkNone() {
+      if (
+        !this.showAll &&
+        !this.showDaily &&
+        !this.showMovies &&
+        !this.showBooks &&
+        !this.showSuccess &&
+        !this.showHabits &&
+        !this.showGoal &&
+        !this.showHobbies &&
+        !this.showMusic &&
+        !this.showLocked
+      ) {
+        this.none = true;
+      }
     },
   },
 }).mount("#app");
