@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const firebase = initializeApp(firebaseConfig);
 import {
   getDatabase,
   ref,
@@ -28,495 +28,232 @@ import {
   child,
 } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-database.js";
 
-const db = getDatabase(app);
+const db = getDatabase(firebase);
 
-const menu = document.querySelector(".mMenu");
-const head = document.querySelector(".headerr");
-const main = document.querySelector(".mainn");
-const one = document.querySelector(".one");
-const two = document.querySelector(".two");
-const three = document.querySelector(".three");
-const four = document.querySelector(".four");
-const five = document.querySelector(".five");
-const movies = document.querySelector(".movies");
-const music = document.querySelector(".musicc");
-const hobbies = document.querySelector(".hobbies");
-const books = document.querySelector(".books");
-const habits = document.querySelector(".habits");
-const daily = document.querySelector(".daily");
-const success = document.querySelector(".success");
-const goal = document.querySelector(".goal");
-const container = document.querySelector(".container");
-const con = document.querySelector(".con");
-const para = document.querySelector(".para");
-const cardImage = document.querySelector(".cardImg");
-const svg = document.querySelector(".svg");
-const search = document.querySelector(".se");
+const app = Vue.createApp({
+  data() {
+    return {
+      message: "Hello!",
+      title: "Hello mom",
+      click: "Click me!",
+      isActive: false,
+      firebaseData: [],
+      movieList: [],
+      musicList: [],
+      booksList: [],
+      hobbiesList: [],
+      successList: [],
+      habitsList: [],
+      goalList: [],
+      dailyList: [],
+      lockedList: [],
+      passwordData: null,
 
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
+      showAll: true,
+      showMovies: false,
+      showMusic: false,
+      showBooks: false,
+      showHobbies: false,
+      showSuccess: false,
+      showHabits: false,
+      showGoal: false,
+      showDaily: false,
+      showLocked: false,
+    };
+  },
+  methods: {
+    FindData() {
+      const dbref = ref(db);
+      get(child(dbref, "mypie/"))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            let keys = Object.keys(snapshot.val());
+            for (let i = 0; i < keys.length; i++) {
+              let dataTemp = `snapshot.val().${keys[i]}`;
+              dataTemp = eval(dataTemp);
 
-let columns = [one, two, three, four, five];
-
-// for (let i = 0; i < columns.length; i++) {
-//   for (let j = 0; j < 7; j++) {
-//     columns[i].insertAdjacentHTML(
-//       "afterbegin",
-//       `
-//       <div style="height: ${getRandomArbitrary(200, 400)}px" class="box small">
-//           <div class="image">
-//             <img src="https://picsum.photos/300/300" alt="" />
-//           </div>
-//           <div class="title">The title</div>
-//         </div>
-
-//       `
-//     );
-//   }
-// }
-
-function bar() {
-  head.classList.toggle("off");
-}
-menu.addEventListener("click", bar);
-
-function FindData() {
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          console.log(img);
-          main.insertAdjacentHTML(
-            "afterbegin",
-            `<div style="height: ${getRandomArbitrary(
-              200,
-              400
-            )}px" id="${title}" class="box small active">
-        <div id="${title}" class="image active">
-          <img id="${title}" class="active" src="${img}" alt="" />
-        </div>
-        <div id="${title}" class="title active">${title}</div>
-      </div>`
-          );
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      } else {
-        alert("No data found");
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-FindData();
-
-function filterMovies() {
-  console.log("clicked");
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          let category = `snapshot.val().${keys[i]}.movies`;
-          category = eval(category);
-          console.log(category);
-          if (category) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-            <div id="${title}" class="image active">
-              <img id="${title}" class="active" src="${img}" alt="" />
-            </div>
-            <div id="${title}" class="title active">${title}</div>
-          </div>`
-            );
+              if (dataTemp.title !== "password") {
+                if (!dataTemp.locked) {
+                  this.firebaseData.push(dataTemp);
+                }
+                if (dataTemp.movies) {
+                  this.movieList.push(dataTemp);
+                }
+                if (dataTemp.music) {
+                  this.musicList.push(dataTemp);
+                }
+                if (dataTemp.books) {
+                  this.booksList.push(dataTemp);
+                }
+                if (dataTemp.hobbies) {
+                  this.hobbiesList.push(dataTemp);
+                }
+                if (dataTemp.success) {
+                  this.successList.push(dataTemp);
+                }
+                if (dataTemp.habits) {
+                  this.habitsList.push(dataTemp);
+                }
+                if (dataTemp.goal) {
+                  this.goalList.push(dataTemp);
+                }
+                if (dataTemp.daily) {
+                  this.dailyList.push(dataTemp);
+                }
+                if (dataTemp.locked) {
+                  this.lockedList.push(dataTemp);
+                }
+              } else {
+                this.passwordData = dataTemp.password;
+              }
+            }
+          } else {
+            alert("No data found");
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    },
+    menu() {
+      this.isActive = !this.isActive;
+      this.FindData();
+    },
+    password() {
+      Swal.fire({
+        title: "Locked!",
+        text: "Enter the password:",
+        input: "password",
+        showCancelButton: true,
+      }).then((result) => {
+        if (result.value) {
+          if (result.value === this.passwordData) {
+            this.Locked();
+          } else {
+            console.log("wrong password");
           }
         }
-      }
-      // findName.innerHTML = "Name: " + snapshot.val().name;
-      // findAge.innerHTML = "Age: " + snapshot.val().age;
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-
-function filterMusic() {
-  console.log("clicked");
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          let category = `snapshot.val().${keys[i]}.music`;
-          category = eval(category);
-          console.log(category);
-          if (category) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-            <div id="${title}" class="image active">
-              <img id="${title}" class="active" src="${img}" alt="" />
-            </div>
-            <div id="${title}" class="title active">${title}</div>
-          </div>`
-            );
-          }
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-function filterHabits() {
-  console.log("clicked");
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          let category = `snapshot.val().${keys[i]}.habits`;
-          category = eval(category);
-          console.log(category);
-          if (category) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-            <div id="${title}" class="image active">
-              <img id="${title}" class="active" src="${img}" alt="" />
-            </div>
-            <div id="${title}" class="title active">${title}</div>
-          </div>`
-            );
-          }
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-function filterHobbies() {
-  console.log("clicked");
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          let category = `snapshot.val().${keys[i]}.hobbies`;
-          category = eval(category);
-          console.log(category);
-          if (category) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-            <div id="${title}" class="image active">
-              <img id="${title}" class="active" src="${img}" alt="" />
-            </div>
-            <div id="${title}" class="title active">${title}</div>
-          </div>`
-            );
-          }
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-function filterBooks() {
-  console.log("clicked");
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          let category = `snapshot.val().${keys[i]}.books`;
-          category = eval(category);
-          console.log(category);
-          if (category) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-            <div id="${title}" class="image active">
-              <img id="${title}" class="active" src="${img}" alt="" />
-            </div>
-            <div id="${title}" class="title active">${title}</div>
-          </div>`
-            );
-          }
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-function filterDaily() {
-  console.log("clicked");
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          let category = `snapshot.val().${keys[i]}.daily`;
-          category = eval(category);
-          console.log(category);
-          if (category) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-            <div id="${title}" class="image active">
-              <img id="${title}" class="active" src="${img}" alt="" />
-            </div>
-            <div id="${title}" class="title active">${title}</div>
-          </div>`
-            );
-          }
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-function filterGoal() {
-  console.log("clicked");
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          let category = `snapshot.val().${keys[i]}.goal`;
-          category = eval(category);
-          console.log(category);
-          if (category) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-            <div id="${title}" class="image active">
-              <img id="${title}" class="active" src="${img}" alt="" />
-            </div>
-            <div id="${title}" class="title active">${title}</div>
-          </div>`
-            );
-          }
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-function filterSuccess() {
-  console.log("clicked");
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          let category = `snapshot.val().${keys[i]}.success`;
-          category = eval(category);
-          console.log(category);
-          if (category) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-            <div id="${title}" class="image active">
-              <img id="${title}" class="active" src="${img}" alt="" />
-            </div>
-            <div id="${title}" class="title active">${title}</div>
-          </div>`
-            );
-          }
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      } else {
-        alert("No data found");
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-
-movies.addEventListener("click", filterMovies);
-music.addEventListener("click", filterMusic);
-habits.addEventListener("click", filterHabits);
-hobbies.addEventListener("click", filterHobbies);
-books.addEventListener("click", filterBooks);
-daily.addEventListener("click", filterDaily);
-success.addEventListener("click", filterSuccess);
-goal.addEventListener("click", filterGoal);
-
-document.addEventListener("click", (e) => {
-  console.log(e.target.id);
-  main.innerHTML = " ";
-  if (e.target.id !== "none") {
-    container.style.transform = "translateX(0px)";
-    const dbref = ref(db);
-    get(child(dbref, "mypie/")).then((snapshot) => {
-      if (snapshot.exists()) {
-        let img = `snapshot.val().${e.target.id}.img`;
-        let text = `snapshot.val().${e.target.id}.text`;
-        img = eval(img);
-        text = eval(text);
-        cardImage.src = img;
-        para.innerHTML = text;
-      }
-    });
-    // findName.innerHTML = "Name: " + snapshot.val().name;
-    // findAge.innerHTML = "Age: " + snapshot.val().age;
-  }
-});
-
-svg.addEventListener("click", () => {
-  console.log("lol");
-  location.reload();
-});
-function myRegex(text, src) {
-  const regex = new RegExp(text, "gi");
-  let result = regex.test(src);
-  return result;
-}
-
-function searchFunc() {
-  console.log(search.value);
-  main.innerHTML = " ";
-  const dbref = ref(db);
-  get(child(dbref, "mypie/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let keys = Object.keys(snapshot.val());
-        for (let i = 0; i < keys.length; i++) {
-          let img = `snapshot.val().${keys[i]}.img`;
-          img = eval(img);
-          let title = `snapshot.val().${keys[i]}.title`;
-          title = eval(title);
-          console.log(img);
-          let answer = myRegex(title, search.value);
-          if (answer) {
-            main.insertAdjacentHTML(
-              "afterbegin",
-              `<div style="height: ${getRandomArbitrary(
-                200,
-                400
-              )}px" id="${title}" class="box small active">
-          <div id="${title}" class="image active">
-            <img id="${title}" class="active" src="${img}" alt="" />
-          </div>
-          <div id="${title}" class="title active">${title}</div>
-        </div>`
-            );
-          }
-        }
-        // findName.innerHTML = "Name: " + snapshot.val().name;
-        // findAge.innerHTML = "Age: " + snapshot.val().age;
-      } else {
-        alert("No data found");
-      }
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-
-search.addEventListener("keyup", (e) => {
-  if (e.keyCode === 13) {
-    searchFunc();
-  }
-});
+      });
+    },
+    Movies() {
+      this.showAll = false;
+      this.showMovies = !this.showMovies;
+      this.showMusic = false;
+      this.showBooks = false;
+      this.showSuccess = false;
+      this.showHabits = false;
+      this.showGoal = false;
+      this.showHobbies = false;
+      this.showDaily = false;
+      this.showLocked = false;
+    },
+    Music() {
+      this.showAll = false;
+      this.showMusic = !this.showMusic;
+      this.showMovies = false;
+      this.showBooks = false;
+      this.showSuccess = false;
+      this.showHabits = false;
+      this.showGoal = false;
+      this.showHobbies = false;
+      this.showDaily = false;
+      this.showLocked = false;
+    },
+    Books() {
+      this.showAll = false;
+      this.showBooks = !this.showBooks;
+      this.showMovies = false;
+      this.showMusic = false;
+      this.showSuccess = false;
+      this.showHabits = false;
+      this.showGoal = false;
+      this.showHobbies = false;
+      this.showDaily = false;
+      this.showLocked = false;
+    },
+    Success() {
+      this.showAll = false;
+      this.showSuccess = !this.showSuccess;
+      this.showMovies = false;
+      this.showBooks = false;
+      this.showMusic = false;
+      this.showHabits = false;
+      this.showGoal = false;
+      this.showHobbies = false;
+      this.showDaily = false;
+      this.showLocked = false;
+    },
+    Hobbies() {
+      this.showAll = false;
+      this.showHobbies = !this.showHobbies;
+      this.showMovies = false;
+      this.showBooks = false;
+      this.showSuccess = false;
+      this.showHabits = false;
+      this.showGoal = false;
+      this.showMusic = false;
+      this.showDaily = false;
+      this.showLocked = false;
+    },
+    Habits() {
+      this.showAll = false;
+      this.showHabits = !this.showHabits;
+      this.showMovies = false;
+      this.showBooks = false;
+      this.showSuccess = false;
+      this.showMusic = false;
+      this.showGoal = false;
+      this.showHobbies = false;
+      this.showDaily = false;
+      this.showLocked = false;
+    },
+    Goal() {
+      this.showAll = false;
+      this.showGoal = !this.showGoal;
+      this.showMovies = false;
+      this.showBooks = false;
+      this.showSuccess = false;
+      this.showHabits = false;
+      this.showMusic = false;
+      this.showHobbies = false;
+      this.showDaily = false;
+      this.showLocked = false;
+    },
+    Daily() {
+      this.showAll = false;
+      this.showDaily = !this.showDaily;
+      this.showMovies = false;
+      this.showBooks = false;
+      this.showSuccess = false;
+      this.showHabits = false;
+      this.showGoal = false;
+      this.showHobbies = false;
+      this.showMusic = false;
+      this.showLocked = false;
+    },
+    Locked() {
+      this.showAll = false;
+      this.showLocked = !this.showLocked;
+      this.showDaily = false;
+      this.showMovies = false;
+      this.showBooks = false;
+      this.showSuccess = false;
+      this.showHabits = false;
+      this.showGoal = false;
+      this.showHobbies = false;
+      this.showMusic = false;
+    },
+    all() {
+      this.showAll = !this.showAll;
+      this.showDaily = false;
+      this.showMovies = false;
+      this.showBooks = false;
+      this.showSuccess = false;
+      this.showHabits = false;
+      this.showGoal = false;
+      this.showHobbies = false;
+      this.showMusic = false;
+      this.showLocked = false;
+    },
+  },
+}).mount("#app");
